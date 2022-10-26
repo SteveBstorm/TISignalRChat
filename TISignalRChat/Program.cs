@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Connections;
 using TISignalRChat.DataContext;
 using TISignalRChat.Hubs;
 
@@ -35,5 +36,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseCors("chatPolicy");
 app.MapControllers();
-app.MapHub<ChatHub>("/chat");
+app.MapHub<ChatHub>("/chat", options =>
+{
+    options.Transports = HttpTransportType.WebSockets | HttpTransportType.LongPolling;
+});
 app.Run();
